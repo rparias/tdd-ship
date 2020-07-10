@@ -59,4 +59,42 @@ public class ShipSpec {
         assertEquals(ship.getLocation(), expectedLocation);
     }
 
+    public void whenReceiveCommandWithLThenLeft() {
+        Location expectedLocation = location.copy();
+        expectedLocation.turnLeft();
+        ship.executeCommands("l");
+        assertEquals(ship.getLocation(), expectedLocation);
+    }
+
+    public void whenReceiveCommandWithRThenRight() {
+        Location expectedLocation = location.copy();
+        expectedLocation.turnRight();
+        ship.executeCommands("r");
+        assertEquals(ship.getLocation(), expectedLocation);
+    }
+
+    public void whenReceiveCommandWithFThenForward() {
+        Location expectedLocation = location.copy();
+        expectedLocation.forward();
+        ship.executeCommands("f");
+        assertEquals(ship.getLocation(), expectedLocation);
+    }
+
+    public void whenReceiveCommandWithBThenBackward() {
+        Location expectedLocation = location.copy();
+        expectedLocation.backward();
+        ship.executeCommands("b");
+        assertEquals(ship.getLocation(), expectedLocation);
+    }
+
+    public void whenReceiveCommandsThenAllAreExecuted() {
+        Location expectedLocation = location.copy();
+        expectedLocation.backward();
+        expectedLocation.turnRight();
+        expectedLocation.forward();
+        expectedLocation.turnLeft();
+        ship.executeCommands("brfl");
+        assertEquals(ship.getLocation(), expectedLocation);
+    }
+
 }
