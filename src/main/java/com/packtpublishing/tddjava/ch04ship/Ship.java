@@ -15,11 +15,11 @@ public class Ship {
     }
 
     public boolean moveForward() {
-        return location.forward(planet.getMax());
+        return location.forward(planet.getMax(), planet.getObstacles());
     }
 
     public boolean moveBackward() {
-        return location.backward(planet.getMax());
+        return location.backward(planet.getMax(), planet.getObstacles());
     }
 
     public void turnLeft() {
@@ -30,13 +30,16 @@ public class Ship {
         location.turnRight();
     }
 
-    public void executeCommands(String commands) {
+    public String executeCommands(String commands) {
+        StringBuilder report = new StringBuilder();
         for (char command : commands.toUpperCase().toCharArray()) {
-            executeIndividualCommand(command);
+            report.append(executeIndividualCommand(command));
         }
+        return report.toString();
     }
 
-    private void executeIndividualCommand(char command) {
+    private String executeIndividualCommand(char command) {
+        String result = "";
         switch (command) {
             case 'L':
                 turnLeft();
@@ -45,14 +48,16 @@ public class Ship {
                 turnRight();
                 break;
             case 'F':
-                moveForward();
+                result = moveForward() ? "O" : "X";
                 break;
             case 'B':
-                moveBackward();
+                result = moveBackward() ? "O" : "X";
                 break;
             default:
                 break;
         }
+
+        return result;
     }
 
     public Planet getPlanet() {

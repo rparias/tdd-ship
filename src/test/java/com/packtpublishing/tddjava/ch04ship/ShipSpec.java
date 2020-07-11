@@ -2,6 +2,9 @@ package com.packtpublishing.tddjava.ch04ship;
 
 import org.testng.annotations.*;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import static org.testng.Assert.*;
 
 @Test
@@ -14,8 +17,8 @@ public class ShipSpec {
     @BeforeMethod
     public void beforeTest() {
         Point max = new Point(50, 50);
-        location = new Location(new Point(11, 91), Direction.NORTH);
-        planet = new Planet(max);
+        location = new Location(new Point(11, 41), Direction.NORTH);
+        planet = new Planet(max, getObstacleList());
         ship = new Ship(location, planet);
     }
 
@@ -25,7 +28,7 @@ public class ShipSpec {
 
     public void givingNorthWhenMoveForwardThenYDecrease() {
         ship.moveForward();
-        assertEquals(ship.getLocation().getPoint().getY(), 90);
+        assertEquals(ship.getLocation().getPoint().getY(), 40);
     }
 
     public void givingEastWhenMoveForwardThenXIncrease() {
@@ -116,6 +119,26 @@ public class ShipSpec {
         location.getPoint().setX(1);
         ship.executeCommands("b");
         assertEquals(location.getX(),50);
+    }
+
+    public void whenDetectObstacleThenMoveIsAborted() {
+        location.setDirection(Direction.EAST);
+        ship.executeCommands("fff");
+        assertEquals(location.getX(),13);
+    }
+
+    public void whenMoveIsAbortedThenReportsObstacles() {
+        location.setDirection(Direction.EAST);
+        String report = ship.executeCommands("fff");
+        assertEquals(report, "OOX");
+    }
+
+    private List<Point> getObstacleList() {
+        List<Point> obstacles = new ArrayList<>();
+        obstacles.add(new Point(14, 41));
+        obstacles.add(new Point(18, 41));
+
+        return obstacles;
     }
 
 }
