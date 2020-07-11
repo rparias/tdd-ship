@@ -3,9 +3,11 @@ package com.packtpublishing.tddjava.ch04ship;
 public class Ship {
 
     private final Location location;
+    private final Planet planet;
 
-    public Ship(Location location) {
+    public Ship(Location location, Planet planet) {
         this.location = location;
+        this.planet = planet;
     }
 
     public Location getLocation() {
@@ -13,11 +15,11 @@ public class Ship {
     }
 
     public boolean moveForward() {
-        return location.forward();
+        return location.forward(planet.getMax());
     }
 
     public boolean moveBackward() {
-        return location.backward();
+        return location.backward(planet.getMax());
     }
 
     public void turnLeft() {
@@ -51,5 +53,9 @@ public class Ship {
             default:
                 break;
         }
+    }
+
+    public Planet getPlanet() {
+        return planet;
     }
 }
